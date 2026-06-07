@@ -7,6 +7,7 @@ import Provider from "./provider";
 import Script from "next/script";
 import SandboxGuard from "@/components/ui/sandboxGuard";
 import DevToolGuard from "@/components/ui/debug_guard";
+import { Suspense } from "react";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -63,7 +64,11 @@ export default function RootLayout({
             `,
           }}
         />
-        {isProduction && <DevToolGuard />}
+        {isProduction && (
+          <Suspense fallback={null}>
+            <DevToolGuard />
+          </Suspense>
+        )}
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider
