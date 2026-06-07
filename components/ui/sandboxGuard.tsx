@@ -10,22 +10,19 @@ export default function SandboxGuard({
   children: React.ReactNode;
 }) {
   const [isSandboxed, setIsSandboxed] = useState(false);
-
   useEffect(() => {
     const inIframe = window.self !== window.top;
     if (!inIframe) return;
 
-    const script = document.createElement("script");
-    script.src = "/scripts/ads.js";
-    script.onload = () => {
-      // loaded fine, no sandbox issue
-    };
-    script.onerror = () => {
-      setIsSandboxed(true); // blocked by sandbox or adblocker
-    };
-    document.head.appendChild(script);
+    try {
+      localStorage.setItem("__sb__", "1");
+      localStorage.removeItem("__sb__");
+    } catch (e) {
+      if (e instanceof DOMException && e.name === "SecurityError") {
+        setIsSandboxed(true);
+      }
+    }
   }, []);
-
   if (isSandboxed) {
     return (
       <div className="flex flex-col items-center justify-center h-screen text-center p-8 bg-black">
