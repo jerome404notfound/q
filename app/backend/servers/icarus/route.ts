@@ -228,12 +228,14 @@ export async function GET(req: NextRequest) {
       dubs = info?.subject?.dubs || [];
 
       // Save to cache
-      await supabase
-        .from("moviebox_cache")
-        .upsert(
-          { tmdb_id: tmdbId, media_type: mediaType, dubs, year },
-          { onConflict: "tmdb_id,media_type", ignoreDuplicates: true },
-        );
+      if (dubs.length > 0) {
+        await supabase
+          .from("moviebox_cache")
+          .upsert(
+            { tmdb_id: tmdbId, media_type: mediaType, dubs, year },
+            { onConflict: "tmdb_id,media_type", ignoreDuplicates: true },
+          );
+      }
     }
 
     // -------- Resolve active subjectId/detailPath from dubs --------
@@ -373,7 +375,6 @@ export async function GET(req: NextRequest) {
         .map((d: any) => ({
           lang: d.lanCode,
           name: d.lanName,
-          subjectId: d.subjectId,
         })),
       meow: !!cached,
     });
