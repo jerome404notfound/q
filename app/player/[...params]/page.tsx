@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDoubleTap } from "use-double-tap";
 import { ArrowLeft } from "lucide-react";
@@ -53,6 +53,7 @@ export default function Player() {
   const enableSaveProgress = searchParams.get("save_progress") !== "false"; // default true
   const enableLoadProgress = searchParams.get("load_progress") !== "false"; // default true
   const load = Number(searchParams.get("load")) || undefined; // default undefined
+  const isAutoSet = useRef(false);
 
   // ─── Local State ─────────────────────────────────────────────────────────────
   const isMobile = useIsMobile();
@@ -257,6 +258,7 @@ export default function Player() {
   }, [source?.links, sourceError]);
   useEffect(() => {
     if (!source?.active) return;
+    isAutoSet.current = true;
     useSettingsStore.getState().setValue("Audio Dub", {
       display: source.active.langName,
       id: source.active.langCode,
@@ -306,11 +308,20 @@ export default function Player() {
     handleQualityChange();
   }, [sourceQualityId]);
 
+  // useEffect(() => {
+  //   if (!dub) return;
+  //   handleMarkDub();
+  //   refetch();
+  // }, [dub]);
   useEffect(() => {
     if (!dub) return;
+    if (isAutoSet.current) {
+      isAutoSet.current = false;
+      return; // ← skip refetch on auto-set
+    }
     handleMarkDub();
+    refetch();
   }, [dub]);
-
   useEffect(() => {
     if (canNext && state.ended) {
       router.push(`/player/tv/${tmdbId}/${nextSeason}/${nextEpisode}`);
