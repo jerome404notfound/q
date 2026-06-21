@@ -1,1 +1,3 @@
+//lib/salt.ts
+
 export const SALT = "23424533224232234252524523254";
