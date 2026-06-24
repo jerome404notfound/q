@@ -18,7 +18,18 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Lamp from "./lamp";
 import { Badge } from "@/components/ui/badge";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 const DEFAULT_PARAMS = [
   {
     key: "server",
@@ -232,7 +243,7 @@ export default function Home() {
   const [season, setSeason] = useState("1");
   const [episode, setEpisode] = useState("1");
   const [activeTab, setActiveTab] = useState<Tab>("custom");
-
+  const [open, setOpen] = useState(true);
   const handleTypeChange = (newType: string) => {
     setType(newType);
     setId(DEFAULT_IDS[newType]);
@@ -240,6 +251,48 @@ export default function Home() {
 
   return (
     <div>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>📢 Important Announcement</AlertDialogTitle>
+
+            <div className="md:text-base text-sm text-muted-foreground text-left space-y-3">
+              <div>
+                To avoid confusion, please only use and follow the{" "}
+                <strong>zxcstream.xyz</strong> domain.
+              </div>
+
+              <div>
+                Our main domain serves as a central entry point and may redirect
+                to whichever active domain is currently available. This ensures
+                uninterrupted access even if we change domains in the future.
+              </div>
+
+              <div>
+                ✅ Always use: <strong>zxcstream.xyz</strong>
+              </div>
+
+              <div>
+                ✅ Any domain changes will be handled automatically through
+                redirects
+              </div>
+
+              <div>✅ No need to save or share temporary domains</div>
+
+              <div>Thank you for your support and understanding.</div>
+            </div>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogAction
+              onClick={() => setOpen(false)}
+              className="w-full"
+            >
+              Got it
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <div className="dark bg-muted px-4 py-3 text-foreground">
         <div className="flex flex-col justify-between gap-2 md:flex-row overflow-hidden">
           <div className="flex grow gap-3">
