@@ -1,3 +1,4 @@
+import { TmdbDetailsResponse } from "@/hooks/tmdb-types";
 import { MovieTypes } from "@/types/types";
 import { motion } from "framer-motion";
 
@@ -5,7 +6,7 @@ export default function Pause({
   metadata,
   color,
 }: {
-  metadata: MovieTypes;
+  metadata: TmdbDetailsResponse;
   color: string;
 }) {
   return (
@@ -21,7 +22,7 @@ export default function Pause({
           You're watching
         </h3>
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl  max-[340px]:text-lg font-bold text-white mt-1  max-[340px]:mt-0 ">
-          {metadata.name || metadata.title}
+          { metadata.title}
         </h1>
         <h1 className="lg:text-xl md:text-lg  max-[340px]:text-xs font-semibold lg:mt-4 mt-2  max-[340px]:mt-0.5 italic">
           {metadata.tagline}

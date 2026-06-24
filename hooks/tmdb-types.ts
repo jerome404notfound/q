@@ -2,6 +2,7 @@ export type TmdbDetailsResponse = {
   id: number;
   title: string;
   overview: string;
+  tagline: string;
   poster_path: string;
   backdrop_path: string;
   release_date: string;
@@ -16,6 +17,8 @@ export type TmdbDetailsResponse = {
   cast: CastMember[];
   seasons: SeasonsType[];
   images: Images;
+  number_of_seasons: number;
+  number_of_episodes: number;
 };
 export type SeasonsType = {
   season_number: number;

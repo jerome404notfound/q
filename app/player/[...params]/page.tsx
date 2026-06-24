@@ -32,6 +32,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import LoadingMetadata from "./logo";
 import { ArrowLeftIcon } from "@/components/icons/arrow";
 import Link from "next/link";
+import { useTmdbDetails } from "@/hooks/fetch-details";
 
 export default function Player() {
   // ─── URL Params ─────────────────────────────────────────────────────────────
@@ -117,21 +118,25 @@ export default function Player() {
   const fetchServer = servers[serverIndex];
 
   // ─── Metadata ────────────────────────────────────────────────────────────────
-  const { data: metadata, isError: metadataError } = useMovieById({
+  // const { data: metadata, isError: metadataError } = useMovieById({
+  //   media_type,
+  //   tmdbId,
+  //   language,
+  // });
+  const { data: metadata, isError: metadataError } = useTmdbDetails(
     media_type,
     tmdbId,
-    language,
-  });
+  );
 
-  const imdbId = metadata?.external_ids?.imdb_id ?? null;
+  const imdbId = metadata?.imdb_id || null;
   const movie_id = metadata?.id;
   const poster = metadata?.poster_path || null;
   const backdrop =
     metadata?.images?.backdrops?.find((f) => f.iso_639_1 === "en")?.file_path ||
     metadata?.backdrop_path ||
     null;
-  const title = metadata?.title || metadata?.name || "";
-  const date = metadata?.release_date ?? metadata?.first_air_date;
+  const title = metadata?.title || "";
+  const date = metadata?.release_date;
   const year = date ? String(new Date(date).getFullYear()) : "";
   const genre = metadata?.genres?.[0]?.name ?? "N/A";
   const totalSeasons = metadata?.number_of_seasons || 0;
