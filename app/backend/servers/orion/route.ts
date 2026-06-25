@@ -234,10 +234,14 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_HOLLY_SUPABASE_URL_HOLLY!,
   process.env.HOLLY_SUPABASE_SERVICE_ROLE_KEY_HOLLY!,
 );
-//https://holly-1.test11-a1b.workers.dev/ https://holly-1.test14-b67.workers.dev/https://holly-1.test18-8cb.workers.dev/
-//https://holly-1.test12-3d3.workers.dev/ https://holly-1.test15-e6c.workers.dev/https://holly-1.test19-31a.workers.dev/
-//https://holly-1.test13-ab8.workers.dev/ https://holly-1.test16-011.workers.dev/https://holly-1.test20-5b4.workers.dev/
+//https://holly-1.test11-a1b.workers.dev/ https://holly-1.test14-b67.workers.dev/ https://holly-1.test18-8cb.workers.dev/
+//https://holly-1.test12-3d3.workers.dev/ https://holly-1.test15-e6c.workers.dev/ https://holly-1.test19-31a.workers.dev/
+//https://holly-1.test13-ab8.workers.dev/ https://holly-1.test16-011.workers.dev/ https://holly-1.test20-5b4.workers.dev/
+//https://holly-1.test23-515.workers.dev/ https://holly-1.test21-0af.workers.dev/ https://holly-1.test22-f82.workers.dev/
 const HOLLY_WORKERS = [
+  "test23-515",
+  "test22-f82",
+  "test21-0af",
   "test20-5b4",
   "test19-31a",
   "test18-8cb",
