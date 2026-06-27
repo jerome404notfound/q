@@ -185,10 +185,14 @@ const supabase = createClient(
 );
 
 const SCREENIFY = "https://www.screenify.fun";
+
 //https://daedalus.test35-f46.workers.dev/ https://daedalus.test34-2ea.workers.dev/ https://daedalus.test36-59e.workers.dev/
 //https://daedalus.test37-93b.workers.dev/ /https://daedalus.test39-43c.workers.dev/ https://daedalus.test40-fdf.workers.dev/
 //https://daedalus.test38-eab.workers.dev/ https://daedalus.test41-2c1.workers.dev/
 const DAEDALUS_WORKERS = [
+  "test42-947",
+
+  //NO TOKEN
   "test41-2c1",
   "test40-fdf",
   "test39-43c",
@@ -209,16 +213,19 @@ async function resolveWorker(upstreamPath: string): Promise<string | null> {
   const shuffled = [...DAEDALUS_WORKERS].sort(() => Math.random() - 0.5);
 
   for (const worker of shuffled) {
-    const url = `https://daedalus.${worker}.workers.dev${upstreamPath}`;
+    const baseUrl = `https://daedalus.${worker}.workers.dev`;
     try {
       const probe = await fetchWithTimeout(
-        url,
-        { method: "GET", headers: { Range: "bytes=0-1" } },
+        baseUrl,
+        { method: "GET" },
         4000,
       ).catch(() => null);
 
-      if (probe?.ok || probe?.status === 206) {
-        return url;
+      if (
+        probe &&
+        (probe.status === 200 || probe.status === 404 || probe.status === 206)
+      ) {
+        return `${baseUrl}${upstreamPath}`;
       }
     } catch {
       // try next
@@ -227,7 +234,6 @@ async function resolveWorker(upstreamPath: string): Promise<string | null> {
 
   return null;
 }
-
 async function fetchSrc(
   imdbId: string,
   media_type: string,
@@ -382,15 +388,10 @@ export async function GET(req: NextRequest) {
         { status: 502 },
       );
     }
-
+    const signedUrl = await signWorkerUrl(workerUrl);
     return NextResponse.json({
       success: true,
-      links: [
-        {
-          type: "hls",
-          link: workerUrl,
-        },
-      ],
+      links: [{ type: "hls", link: signedUrl }],
       subtitles: [],
       meow: !!cached,
     });
@@ -400,4 +401,37 @@ export async function GET(req: NextRequest) {
       { status: 500 },
     );
   }
+}
+
+// lib/sign-worker-url.ts
+export async function signWorkerUrl(workerUrl: string): Promise<string> {
+  const url = new URL(workerUrl);
+  const pathname = url.pathname;
+  const exp = String(Date.now() + 6 * 60 * 60 * 1000); // 6 hours
+
+  const secret = process.env.DAEDALUS!;
+  const encoder = new TextEncoder();
+
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+
+  const sig = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    encoder.encode(`${pathname}:${exp}`),
+  );
+
+  const tok = btoa(String.fromCharCode(...new Uint8Array(sig)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
+
+  url.searchParams.set("tok", tok);
+  url.searchParams.set("exp", exp);
+  return url.toString();
 }
