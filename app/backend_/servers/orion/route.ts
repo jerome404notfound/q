@@ -322,14 +322,15 @@ const HOLLY_WORKERS = [
 //https://holly-3.test96-27b.workers.dev/  https://holly-3.test93-602.workers.dev/ https://holly-3.test94-fa3.workers.dev/ https://holly-3.test95-7d8.workers.dev/
 //https://holly-3.test99-a46.workers.dev/ https://holly-3.test98-a64.workers.dev/ https://holly-3.test97-f4b.workers.dev/ https://holly-3.test100-1ff.workers.dev/
 const HOLLY_PROXIES = [
-  "test100-1ff",
-  "test97-f4b",
-  "test98-a64",
+  // "test100-1ff",
+  // "test98-a64",
+  // "test97-f4b",
+  // "test96-27b",
+  // "test95-7d8",
   "test99-a46",
-  "test95-7d8",
   "test94-fa3",
   "test93-602",
-  "test96-27b",
+
   "test91-055",
   "test89-84b",
   "test90-187",
