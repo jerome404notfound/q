@@ -13,19 +13,19 @@ export const initialServers: ServerTypes[] = [
     status: "queue",
     desc: "4K Support ",
   },
-  {
-    name: "Orion II",
-    server: "orion",
-    status: "queue",
-    desc: "Built-In Subtitle",
-  },
-
   // {
-  //   name: "Daedalus III",
-  //   server: "daedalus",
+  //   name: "Orion II",
+  //   server: "orion",
   //   status: "queue",
-  //   desc: "Alternative",
+  //   desc: "Built-In Subtitle",
   // },
+
+  {
+    name: "Daedalus III",
+    server: "daedalus",
+    status: "queue",
+    desc: "Alternative",
+  },
   {
     name: "Athena IV",
     server: "athena",
@@ -33,12 +33,12 @@ export const initialServers: ServerTypes[] = [
     desc: "Main Server & Multi Audio Support",
   },
 
-  // {
-  //   name: "Talos V",
-  //   server: "zeus",
-  //   status: "queue",
-  //   desc: "Alternative",
-  // },
+  {
+    name: "Talos V",
+    server: "zeus",
+    status: "queue",
+    desc: "Alternative",
+  },
   // {
   //   name: "Atlas VI",
   //   server: "atlas_v2",
