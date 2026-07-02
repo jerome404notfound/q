@@ -493,8 +493,8 @@ export async function GET(req: NextRequest) {
     }
     //Test155@zxcstream.xyz's Account
     const proxies = [
-      "https://berkas.test158-123.workers.dev/",
-      "https://berkas.test159-123.workers.dev/",
+      "https://berkas.test158-123.workers.dev/", //
+      "https://berkas.test159-123.workers.dev/", //
       "https://berkas.test160-123.workers.dev/",
       "https://berkas.test161-123.workers.dev/",
       "https://icarus.test154-123.workers.dev/",
