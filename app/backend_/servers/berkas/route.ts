@@ -15,6 +15,8 @@ const supabase = createClient(
 );
 // /workers/subdomain
 const PROXY_WORKERS = [
+  "https://zxcstream.berkas10.workers.dev/",
+  "https://zxcstream.berkas9.workers.dev/",
   "https://zxcstream.berkas8.workers.dev/",
   "https://zxcstream.berkas7.workers.dev/",
   "https://zxcstream.berkas6.workers.dev/",
