@@ -504,7 +504,8 @@ export async function GET(req: NextRequest) {
       // "https://berkas.test161-123.workers.dev/",
       // "https://berkas.test160-123.workers.dev/",
       "https://icarus.test155-123.workers.dev/",
-
+      "https://proxy.icarus1.workers.dev/",
+      "https://proxy.icarus2.workers.dev/",
       // "https://berkas.test158-123.workers.dev/", //
       // "https://berkas.test159-123.workers.dev/", //
 
