@@ -489,9 +489,18 @@ export async function GET(req: NextRequest) {
         display: c.lanName,
         file: c.url,
       }));
-    }
+    } //Je@09185134757
     //Test155@zxcstream.xyz's Account
     const proxies = [
+      "https://proxy.icarus10.workers.dev/",
+      "https://proxy.icarus9.workers.dev/",
+      "https://proxy.icarus8.workers.dev/",
+      "https://proxy.icarus7.workers.dev/",
+      "https://proxy.icarus6.workers.dev/",
+      "https://proxy.icarus5.workers.dev/",
+      "https://proxy.icarus4.workers.dev/",
+      "https://proxy.icarus3.workers.dev/",
+      //
       "https://icarus.test155-123.workers.dev/",
       "https://proxy.icarus1.workers.dev/",
       "https://proxy.icarus2.workers.dev/",
