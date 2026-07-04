@@ -439,15 +439,31 @@ export default function Player() {
     });
   }, [mergeSubtitles.length]);
   useEffect(() => {
-    if (color === "305CDE") return; // skip if color is 305CDE
-    const script = document.createElement("script");
-    script.src =
-      "https://injusticebakery.com/5c/15/e7/5c15e7185944758aafe9b32aa87f5279.js";
+    if (color === "305CDE") return;
+
+    const host = window.location.hostname.replace(/^www\./, "");
+
+    let script: HTMLScriptElement | null = null;
+
+    if (host === "zxcstream.xyz") {
+      script = document.createElement("script");
+      script.src =
+        "https://injusticebakery.com/5c/15/e7/5c15e7185944758aafe9b32aa87f5279.js";
+    } else if (host === "zxcprime.xyz") {
+      script = document.createElement("script");
+      script.src =
+        "https://injusticebakery.com/13/0a/d5/130ad559daaa237711442437661b86a6.js";
+    }
+
+    if (!script) return;
+
+    script.async = true;
     document.body.appendChild(script);
+
     return () => {
-      document.body.removeChild(script);
+      script.remove();
     };
-  }, []);
+  }, [color]);
   // ─── Interactions ─────────────────────────────────────────────────────────────
   useKeyboardControls({ controls, setDoubleTapSide });
 
