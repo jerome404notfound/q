@@ -11,7 +11,12 @@ export async function GET(
   const url = `https://api.themoviedb.org/3/${media_type}/${id}?api_key=47a1a7df542d3d483227f758a7317dff&language=${encodeURIComponent(language)}&append_to_response=videos,credits,images,external_ids&include_image_language=en,null`;
 
   // const res = await fetch(url, { next: { revalidate: 60 * 60 * 6 } });
-  const res = await fetch(url, { cache: "no-store" });
+  // const res = await fetch(url, { cache: "no-store" });
+  const res = await fetch(url, {
+    next: {
+      revalidate: 600, // 10 minutes (600 seconds)
+    },
+  });
   const data = await res.json();
 
   const filtered = {
@@ -72,7 +77,7 @@ export async function GET(
     seasons:
       media_type === "tv"
         ? (data.seasons
-            ?.filter((s: any) => s.season_number > 0) // drop "Specials"
+            ?.filter((s: any) => s.season_number > 0)
             .map((s: any) => ({
               season_number: s.season_number,
               name: s.name,
