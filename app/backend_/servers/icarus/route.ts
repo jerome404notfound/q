@@ -492,6 +492,11 @@ export async function GET(req: NextRequest) {
     } //Je@09185134757
     //Test155@zxcstream.xyz's Account
     const proxies = [
+      "https://gentle-frost-0125.icarus018.workers.dev/",
+      "https://summer-poetry-a019.icarus017.workers.dev/",
+      "https://billowing-sea-003c.icarus016.workers.dev/",
+      "https://summer-poetry-0561.icarus015.workers.dev/",
+
       "https://dawn-mud-4987.icarus014.workers.dev/",
       "https://rapid-sky-fc42.icarus013.workers.dev/",
       "https://old-surf-c6eb.icarus012.workers.dev/",
