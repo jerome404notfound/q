@@ -583,7 +583,7 @@ export default function Player() {
       </div>
     );
   }
-  if (isSandboxed) {
+  if (!isSandboxed) {
     return (
       <div
         className={cn(
@@ -598,25 +598,24 @@ export default function Player() {
         <div className="absolute w-64 h-64 rounded-full bg-blue-600/10 blur-3xl pointer-events-none animate-pulse" />
         <div className="relative z-10 text-center px-4">
           <div className="space-y-2">
-            <div className="animate-bounce">
+            <div className="">
               <span className="font-bold lg:text-xl md:text-lg text-base landscape:text-sm">
                 ༼;´༎ຶ ۝ ༎ຶ༽
               </span>
             </div>
-            <p className=" lg:text-2xl md:text-xl text-lg landscape:text-base -tracking-[0.04em] font-semibold mt-6 landscape:mt-1">
-              Unsupported Sandbox Environment
+            <p className=" lg:text-2xl md:text-xl text-lg landscape:text-base -tracking-[0.04em] font-semibold mt-8 landscape:mt-1">
+              Sandbox Not Supported
             </p>
-            <p className="text-muted-foreground lg:text-base text-sm font-medium landscape:text-xs max-w-xl">
-              This player cannot run inside a sandboxed iframe. Please disable
-              the
+            <p className="text-muted-foreground lg:text-lg text-sm font-medium landscape:text-xs max-w-xl mt-3">
+              Please disable the
               <code className="mx-1">sandbox</code>
               attribute or ask the website owner to remove the sandbox
               restrictions.
             </p>
-            <p className="text-xs lg:text-sm text-muted-foreground/80 italic">
+            {/* <p className="text-sm lg:text-sm text-muted-foreground/80 italic">
               This restriction is temporarily enabled to help reduce server load
               and conserve resources.
-            </p>
+            </p> */}
           </div>
 
           {/* <div className="flex items-center gap-6 mt-6">
