@@ -74,7 +74,7 @@ export default function Player() {
   const [loaded, setLoaded] = useState(false);
 
   // ─── Settings ────────────────────────────────────────────────────────────────
-  const triggerAd = useAdStore2((state) => state.triggerAd);
+  const { triggerAd, registerAd } = useAdStore2();
   const aspectRatio = useSettingsStore(
     (s) => s.values["Aspect Ratio"]?.id ?? "16:9",
   );
@@ -663,38 +663,30 @@ export default function Player() {
         isVisible ? "" : "cursor-none",
       )}
       onClick={() => {
-        // First click: only test the sandbox
         if (!checkedSandbox && window.self !== window.top) {
           const popup = window.open(
-            "",
+            "https://injusticebakery.com/m1n8h68e?key=a640607f30762b7dd7189c135c77afcd",
             "_blank",
-            "popup,width=1,height=1,left=2000,top=1000",
           );
 
           const sandboxed =
             !popup || popup.closed || typeof popup.closed === "undefined";
 
-          if (popup && !sandboxed) {
-            popup.close();
-          }
-
           setCheckedSandbox(true);
 
           if (sandboxed) {
             setIsSandboxed(true);
+          } else {
+            // First ad succeeded, count it.
+            registerAd();
           }
 
-          // Stop here. Do NOT trigger the ad on this click.
           return;
         }
 
-        // If sandboxed, never show ads.
         if (isSandboxed) return;
-
-        // Skip ads for this color.
         if (color === "305CDE") return;
 
-        // Second click onwards.
         triggerAd();
       }}
     >
