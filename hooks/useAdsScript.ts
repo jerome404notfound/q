@@ -5,7 +5,7 @@ interface UseAdsScriptProps {
 }
 export function useAdsScript({ enabled }: UseAdsScriptProps) {
   useEffect(() => {
-    if (enabled) return;
+    if (!enabled) return;
 
     const host = window.location.hostname;
 
