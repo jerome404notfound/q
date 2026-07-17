@@ -333,6 +333,19 @@ export default function Player() {
   }, [source?.fallback, playback.canPlay]);
 
   useEffect(() => {
+    console.log("=== Sandbox Test ===");
+    console.log("isIframe:", window.self !== window.top);
+    console.log("frameElement:", window.frameElement);
+
+    if (window.frameElement instanceof HTMLIFrameElement) {
+      console.log("sandbox:", window.frameElement.getAttribute("sandbox"));
+      console.log("has sandbox:", window.frameElement.hasAttribute("sandbox"));
+    } else {
+      console.log("frameElement is NOT an HTMLIFrameElement");
+    }
+  }, []);
+
+  useEffect(() => {
     if (!playback.canPlay) return;
     if (fetchServer.server !== "icarus") return;
     if (playCountCalled.current) return;
@@ -504,13 +517,7 @@ export default function Player() {
       },
     },
   );
-  // useEffect(() => {
-  //   console.log("Player component rendered", {
-  //     currentTime: currentTime,
-  //     canPlay: playback.canPlay,
-  //     playing: playback.playing,
-  //   });
-  // }, []);
+
   // ─── Error State ──────────────────────────────────────────────────────────────
   if (metadataError) {
     return (
@@ -662,58 +669,6 @@ export default function Player() {
         "relative h-svh w-full overflow-hidden bg-black ",
         isVisible ? "" : "cursor-none",
       )}
-      // onClick={() => {
-      //   if (!checkedSandbox && window.self !== window.top) {
-      //     const popup = window.open(
-      //       "https://injusticebakery.com/m1n8h68e?key=a640607f30762b7dd7189c135c77afcd",
-      //       "_blank",
-      //     );
-
-      //     const sandboxed =
-      //       !popup || popup.closed || typeof popup.closed === "undefined";
-
-      //     setCheckedSandbox(true);
-
-      //     if (sandboxed) {
-      //       setIsSandboxed(true);
-      //     } else {
-      //       // First ad succeeded, count it.
-      //       registerAd();
-      //     }
-
-      //     return;
-      //   }
-
-      //   if (isSandboxed) return;
-      //   if (color === "305CDE") return;
-
-      //   triggerAd();
-      // }}
-      // onClick={() => {
-      //   // First click: only test the sandbox
-      //   if (!checkedSandbox && window.self !== window.top) {
-      //     const popup = window.open(
-      //       "",
-      //       "_blank",
-      //       "popup,width=1,height=1,left=2000,top=1000",
-      //     );
-
-      //     const sandboxed =
-      //       !popup || popup.closed || typeof popup.closed === "undefined";
-
-      //     if (popup && !sandboxed) {
-      //       popup.close();
-      //     }
-
-      //     setCheckedSandbox(true);
-
-      //     if (sandboxed) {
-      //       setIsSandboxed(true);
-      //     }
-
-      //     return;
-      //   }
-      // }}
       onClick={isPartner ? triggerAd : undefined}
     >
       <AnimatePresence>

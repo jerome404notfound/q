@@ -45,7 +45,6 @@ export const ALLOWED_ORIGINS = [
   "https://zxcprime.site",
   "https://www.zxcprime.site",
   //
-
   "https://q.zxcstream.xyz",
   "https://embed.zxcstream.xyz",
   "https://cdn.zxcstream.xyz",
