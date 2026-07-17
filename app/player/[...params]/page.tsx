@@ -462,68 +462,66 @@ export default function Player() {
     platform: "profiton",
   });
   useEffect(() => {
-    console.group("Sandbox Fingerprint");
+    if (window.self === window.top) {
+      console.log("[sandbox] Top window");
+      return;
+    }
 
-    console.table({
-      iframe: window.self !== window.top,
+    console.log("[sandbox] Running inside iframe");
 
-      // Frame
-      frameElement: window.frameElement !== null,
+    try {
+      if (window.frameElement?.hasAttribute("sandbox")) {
+        console.log("[sandbox] frameElement has sandbox attribute");
+      } else {
+        console.log("[sandbox] frameElement has no sandbox attribute");
+      }
+    } catch (err) {
+      console.log("[sandbox] Cannot access frameElement", err);
+    }
 
-      // Storage
-      localStorage: (() => {
-        try {
-          localStorage.setItem("__t", "1");
-          localStorage.removeItem("__t");
-          return true;
-        } catch {
-          return false;
+    try {
+      document.domain = document.domain;
+      console.log("[sandbox] document.domain assignment succeeded");
+    } catch (err) {
+      console.log("[sandbox] document.domain assignment failed", err);
+
+      try {
+        if (String(err).toLowerCase().includes("sandbox")) {
+          console.log("[sandbox] Sandbox detected from document.domain");
         }
-      })(),
+      } catch {}
+    }
 
-      sessionStorage: (() => {
-        try {
-          sessionStorage.setItem("__t", "1");
-          sessionStorage.removeItem("__t");
-          return true;
-        } catch {
-          return false;
-        }
-      })(),
+    try {
+      const pdfViewer = window.navigator.plugins.namedItem("Chrome PDF Viewer");
 
-      // Browser APIs
-      fullscreenEnabled: document.fullscreenEnabled,
-      clipboard: !!navigator.clipboard,
-      share: "share" in navigator,
-      paymentRequest: "PaymentRequest" in window,
-      serviceWorker: "serviceWorker" in navigator,
-      credentialless: "credentialless" in HTMLIFrameElement.prototype,
+      if (!pdfViewer) {
+        console.log("[sandbox] Chrome PDF Viewer not available");
+        return;
+      }
 
-      // Isolation
-      crossOriginIsolated,
-      cookieEnabled: navigator.cookieEnabled,
+      console.log("[sandbox] Chrome PDF Viewer found");
 
-      // Permissions Policy
-      permissionsPolicy:
-        "permissionsPolicy" in document || "featurePolicy" in document,
+      const obj = document.createElement("object");
+      obj.data = "data:application/pdf;base64,aG1t";
+      obj.style.cssText =
+        "position:absolute;top:-500px;left:-500px;visibility:hidden;";
 
-      // Window
-      opener: window.opener !== null,
-      origin: location.origin,
-      referrer: document.referrer,
-      secureContext: window.isSecureContext,
+      obj.onload = () => {
+        console.log("[sandbox] PDF object loaded");
+        obj.remove();
+      };
 
-      // APIs
-      BroadcastChannel: "BroadcastChannel" in window,
-      SharedWorker: "SharedWorker" in window,
-      SharedArrayBuffer: "SharedArrayBuffer" in window,
-    });
+      obj.onerror = () => {
+        console.log("[sandbox] PDF object failed to load (possible sandbox)");
+        obj.remove();
+      };
 
-    console.groupEnd();
+      document.body.appendChild(obj);
+    } catch (err) {
+      console.log("[sandbox] PDF test threw", err);
+    }
   }, []);
-  console.log("userAgent", navigator.userAgent);
-  console.log("frameElement", window.frameElement);
-  console.log("window.name", window.name);
   useKeyboardControls({ controls, setDoubleTapSide });
   // useEffect(() => {
   //   // If not in an iframe, mark as checked immediately (no sandbox to worry about)
