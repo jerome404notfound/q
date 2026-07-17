@@ -462,13 +462,16 @@ export default function Player() {
     platform: "profiton",
   });
   useEffect(() => {
-    const restricted = isRestrictedEmbed();
+    console.group("Sandbox Fingerprint");
 
     console.table({
-      restricted,
       iframe: window.self !== window.top,
-      fullscreen: document.fullscreenEnabled,
-      storage: (() => {
+
+      // Frame
+      frameElement: window.frameElement !== null,
+
+      // Storage
+      localStorage: (() => {
         try {
           localStorage.setItem("__t", "1");
           localStorage.removeItem("__t");
@@ -477,18 +480,50 @@ export default function Player() {
           return false;
         }
       })(),
-      parentAccess: (() => {
+
+      sessionStorage: (() => {
         try {
-          void window.parent.document;
+          sessionStorage.setItem("__t", "1");
+          sessionStorage.removeItem("__t");
           return true;
         } catch {
           return false;
         }
       })(),
+
+      // Browser APIs
+      fullscreenEnabled: document.fullscreenEnabled,
+      clipboard: !!navigator.clipboard,
+      share: "share" in navigator,
+      paymentRequest: "PaymentRequest" in window,
+      serviceWorker: "serviceWorker" in navigator,
+      credentialless: "credentialless" in HTMLIFrameElement.prototype,
+
+      // Isolation
+      crossOriginIsolated,
+      cookieEnabled: navigator.cookieEnabled,
+
+      // Permissions Policy
+      permissionsPolicy:
+        "permissionsPolicy" in document || "featurePolicy" in document,
+
+      // Window
+      opener: window.opener !== null,
+      origin: location.origin,
+      referrer: document.referrer,
+      secureContext: window.isSecureContext,
+
+      // APIs
+      BroadcastChannel: "BroadcastChannel" in window,
+      SharedWorker: "SharedWorker" in window,
+      SharedArrayBuffer: "SharedArrayBuffer" in window,
     });
 
-    setIsSandboxed(restricted);
+    console.groupEnd();
   }, []);
+  console.log("userAgent", navigator.userAgent);
+  console.log("frameElement", window.frameElement);
+  console.log("window.name", window.name);
   useKeyboardControls({ controls, setDoubleTapSide });
   // useEffect(() => {
   //   // If not in an iframe, mark as checked immediately (no sandbox to worry about)
@@ -932,41 +967,4 @@ export default function Player() {
       </AnimatePresence>
     </div>
   );
-}
-export function isRestrictedEmbed() {
-  if (window.self === window.top) return false;
-
-  let score = 0;
-
-  let storage = true;
-  let fullscreen = document.fullscreenEnabled;
-  let parentAccess = true;
-
-  try {
-    localStorage.setItem("__t", "1");
-    localStorage.removeItem("__t");
-  } catch {
-    storage = false;
-    score++;
-  }
-
-  if (!fullscreen) {
-    score++;
-  }
-
-  try {
-    void window.parent.document;
-  } catch {
-    parentAccess = false;
-    score++;
-  }
-
-  console.table({
-    score,
-    storage,
-    fullscreen,
-    parentAccess,
-  });
-
-  return score >= 2;
 }
