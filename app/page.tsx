@@ -21,16 +21,14 @@ import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import Script from "next/script";
+import { useAdsScript } from "@/hooks/useAdsScript";
+
 const DEFAULT_PARAMS = [
   {
     key: "server",
@@ -72,6 +70,11 @@ const DEFAULT_IDS: Record<string, string> = {
 const DEBOUNCE_MS = 600;
 
 type Tab = "custom" | "builtin";
+
+useAdsScript({
+  enabled: true,
+  platform: "profiton",
+});
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debounced, setDebounced] = useState(value);
@@ -252,10 +255,6 @@ export default function Home() {
 
   return (
     <>
-      <Script
-        src="https://injusticebakery.com/5c/15/e7/5c15e7185944758aafe9b32aa87f5279.js"
-        strategy="afterInteractive"
-      />
       <div>
         <AlertDialog open={open} onOpenChange={setOpen}>
           <AlertDialogContent>

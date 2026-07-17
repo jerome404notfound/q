@@ -2,8 +2,9 @@ import { useEffect } from "react";
 
 interface UseAdsScriptProps {
   enabled: boolean;
+  platform: "adsterra" | "profiton";
 }
-export function useAdsScript({ enabled }: UseAdsScriptProps) {
+export function useAdsScript({ enabled, platform }: UseAdsScriptProps) {
   useEffect(() => {
     if (!enabled) return;
 
@@ -16,12 +17,15 @@ export function useAdsScript({ enabled }: UseAdsScriptProps) {
       host.endsWith(".zxcstream.xyz") ||
       (host.endsWith(".up.railway.app") && host.includes("zxcstream-xyz"))
     ) {
-      // script = document.createElement("script");
-      // script.src =
-      //   "https://injusticebakery.com/5c/15/e7/5c15e7185944758aafe9b32aa87f5279.js";
-      script = document.createElement("script");
-      script.src = "//fp.caligoatabals.com/rN5gaF9kjWFkD7SVQ/146575";
-      script.setAttribute("data-cfasync", "false");
+      if (platform === "adsterra") {
+        script = document.createElement("script");
+        script.src =
+          "https://injusticebakery.com/5c/15/e7/5c15e7185944758aafe9b32aa87f5279.js";
+      } else {
+        script = document.createElement("script");
+        script.src = "//fp.caligoatabals.com/rN5gaF9kjWFkD7SVQ/146575";
+        script.setAttribute("data-cfasync", "false");
+      }
     } else if (host === "zxcprime.xyz" || host.endsWith(".zxcprime.xyz")) {
       script = document.createElement("script");
       script.src =
@@ -36,5 +40,5 @@ export function useAdsScript({ enabled }: UseAdsScriptProps) {
     return () => {
       script.remove();
     };
-  }, [enabled]);
+  }, [enabled, platform]);
 }

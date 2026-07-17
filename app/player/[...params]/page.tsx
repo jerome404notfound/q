@@ -65,7 +65,7 @@ export default function Player() {
   const dubLangApplied = useRef(false);
   const playCountCalled = useRef(false);
   const errorReportCalled = useRef(false);
-  const [isSandboxed, setIsSandboxed] = useState(false);
+  // const [isSandboxed, setIsSandboxed] = useState(false);
   const [checkedSandbox, setCheckedSandbox] = useState(false);
   // ─── Local State ─────────────────────────────────────────────────────────────
   const isMobile = useIsMobile();
@@ -470,7 +470,8 @@ export default function Player() {
   }, [mergeSubtitles.length]);
 
   useAdsScript({
-    enabled: !(color === "305CDE" || meow || isSandboxed),
+    enabled: !(color === "305CDE" || meow),
+    platform: "adsterra",
   });
   useKeyboardControls({ controls, setDoubleTapSide });
   // useEffect(() => {
@@ -594,77 +595,77 @@ export default function Player() {
       </div>
     );
   }
-  if (isSandboxed) {
-    return (
-      <div
-        className={cn(
-          "h-screen flex flex-col justify-center items-center gap-6 bg-background relative overflow-hidden",
-        )}
-      >
-        {back && !playback.canPlay && (
-          <button onClick={() => router.back()} className="cursor-pointer">
-            <ArrowLeftIcon className="absolute lg:top-4 top-3 lg:left-6 left-2 lg:size-13  md:size-10 size-8  landscape:size-5.5 text-muted-foreground z-30" />
-          </button>
-        )}
-        <div className="absolute w-64 h-64 rounded-full bg-blue-600/10 blur-3xl pointer-events-none animate-pulse" />
-        <div className="relative z-10 text-center px-4">
-          <div className="space-y-2">
-            <div className="">
-              <span className="font-bold lg:text-xl md:text-lg text-base landscape:text-sm">
-                ༼;´༎ຶ ۝ ༎ຶ༽
-              </span>
-            </div>
-            <p className=" lg:text-2xl md:text-xl text-lg landscape:text-base -tracking-[0.04em] font-semibold mt-8 landscape:mt-1">
-              Sandbox Not Supported
-            </p>
-            <p className="text-muted-foreground lg:text-lg text-sm font-medium landscape:text-xs max-w-xl mt-3">
-              Please disable the
-              <code className="mx-1">sandbox</code>
-              attribute or ask the website owner to remove the sandbox
-              restrictions.
-            </p>
-            {/* <p className="text-sm lg:text-sm text-muted-foreground/80 italic">
-              This restriction is temporarily enabled to help reduce server load
-              and conserve resources.
-            </p> */}
-          </div>
+  // if (isSandboxed) {
+  //   return (
+  //     <div
+  //       className={cn(
+  //         "h-screen flex flex-col justify-center items-center gap-6 bg-background relative overflow-hidden",
+  //       )}
+  //     >
+  //       {back && !playback.canPlay && (
+  //         <button onClick={() => router.back()} className="cursor-pointer">
+  //           <ArrowLeftIcon className="absolute lg:top-4 top-3 lg:left-6 left-2 lg:size-13  md:size-10 size-8  landscape:size-5.5 text-muted-foreground z-30" />
+  //         </button>
+  //       )}
+  //       <div className="absolute w-64 h-64 rounded-full bg-blue-600/10 blur-3xl pointer-events-none animate-pulse" />
+  //       <div className="relative z-10 text-center px-4">
+  //         <div className="space-y-2">
+  //           <div className="">
+  //             <span className="font-bold lg:text-xl md:text-lg text-base landscape:text-sm">
+  //               ༼;´༎ຶ ۝ ༎ຶ༽
+  //             </span>
+  //           </div>
+  //           <p className=" lg:text-2xl md:text-xl text-lg landscape:text-base -tracking-[0.04em] font-semibold mt-8 landscape:mt-1">
+  //             Sandbox Not Supported
+  //           </p>
+  //           <p className="text-muted-foreground lg:text-lg text-sm font-medium landscape:text-xs max-w-xl mt-3">
+  //             Please disable the
+  //             <code className="mx-1">sandbox</code>
+  //             attribute or ask the website owner to remove the sandbox
+  //             restrictions.
+  //           </p>
+  //           {/* <p className="text-sm lg:text-sm text-muted-foreground/80 italic">
+  //             This restriction is temporarily enabled to help reduce server load
+  //             and conserve resources.
+  //           </p> */}
+  //         </div>
 
-          {/* <div className="flex items-center gap-6 mt-6">
-            <div className="h-px bg-border flex-1"></div>{" "}
-            <h3 className="text-xs uppercase text-muted-foreground">
-              Contact Us
-            </h3>
-            <div className="h-px bg-border flex-1"></div>
-          </div>
-          <div className="flex justify-center items-center gap-3">
-            <Button
-              variant="outline"
-              className="mt-6"
-              onClick={() => setIsSandboxed(false)}
-            >
-              <ExternalLink /> Facebook
-            </Button>
+  //         {/* <div className="flex items-center gap-6 mt-6">
+  //           <div className="h-px bg-border flex-1"></div>{" "}
+  //           <h3 className="text-xs uppercase text-muted-foreground">
+  //             Contact Us
+  //           </h3>
+  //           <div className="h-px bg-border flex-1"></div>
+  //         </div>
+  //         <div className="flex justify-center items-center gap-3">
+  //           <Button
+  //             variant="outline"
+  //             className="mt-6"
+  //             onClick={() => setIsSandboxed(false)}
+  //           >
+  //             <ExternalLink /> Facebook
+  //           </Button>
 
-            <Button
-              variant="outline"
-              className="mt-6"
-              onClick={() => setIsSandboxed(false)}
-            >
-              <ExternalLink /> Telegram
-            </Button>
-            <Button
-              variant="outline"
-              className="mt-6"
-              onClick={() => setIsSandboxed(false)}
-            >
-              <ExternalLink /> Discord
-            </Button>
-           
-          </div> */}
-        </div>
-      </div>
-    );
-  }
+  //           <Button
+  //             variant="outline"
+  //             className="mt-6"
+  //             onClick={() => setIsSandboxed(false)}
+  //           >
+  //             <ExternalLink /> Telegram
+  //           </Button>
+  //           <Button
+  //             variant="outline"
+  //             className="mt-6"
+  //             onClick={() => setIsSandboxed(false)}
+  //           >
+  //             <ExternalLink /> Discord
+  //           </Button>
+
+  //         </div> */}
+  //       </div>
+  //     </div>
+  //   );
+  // }
   // ─── Render ───────────────────────────────────────────────────────────────────
   return (
     <div
